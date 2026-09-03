@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "csa15-smart-campus-service-platform",
+		"name": "Smart Campus Service Request & Incident Response Platform",
+		"description": "Postman API Collection for CSA15 Cloud Computing and Big Data Analytics Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Student Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"student\",\n    \"password\": \"student123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Staff Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"staff\",\n    \"password\": \"staff123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current Profile (GET /api/auth/me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Service Requests",
+			"item": [
+				{
+					"name": "Create Service Request (POST 201)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Network\",\n    \"location\": \"Computer Lab 02\",\n    \"description\": \"Switch port 12 flapping, causing disconnects during lab exam.\",\n    \"priority\": \"High\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/requests",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests"]
+						}
+					}
+				},
+				{
+					"name": "Create Emergency Request (POST 201)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Security\",\n    \"location\": \"Chemistry Lab Annex\",\n    \"description\": \"Chemical fume leakage detected near exhaust ventilator.\",\n    \"priority\": \"Emergency\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/requests",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests"]
+						}
+					}
+				},
+				{
+					"name": "Get All Requests (GET 200 - Emergency Sorted First)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/requests",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests"]
+						}
+					}
+				},
+				{
+					"name": "Filter by Priority = Emergency (GET 200)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/requests?priority=Emergency",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests"],
+							"query": [
+								{
+									"key": "priority",
+									"value": "Emergency"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Filter by Status = Pending (GET 200)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/requests?status=Pending",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests"],
+							"query": [
+								{
+									"key": "status",
+									"value": "Pending"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Individual Request by ID (GET 200)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/requests/REQ-1001",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests", "REQ-1001"]
+						}
+					}
+				},
+				{
+					"name": "Get Non-Existent Request ID (GET 404)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/requests/REQ-9999",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests", "REQ-9999"]
+						}
+					}
+				},
+				{
+					"name": "Update Status by Staff (PUT 200)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{staffToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"In Progress\",\n    \"staffNotes\": \"Technician dispatched on-site.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/requests/REQ-1001/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests", "REQ-1001", "status"]
+						}
+					}
+				},
+				{
+					"name": "Student Status Update Forbidden (PUT 403)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{studentToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Resolved\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/requests/REQ-1001/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "requests", "REQ-1001", "status"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Cloud Workload Telemetry",
+			"item": [
+				{
+					"name": "Get Cloud Infrastructure Sizing (GET 200)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/system/workload",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "system", "workload"]
+						}
+					}
+				},
+				{
+					"name": "Healthcheck (GET 200)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "health"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "studentToken",
+			"value": ""
+		},
+		{
+			"key": "staffToken",
+			"value": ""
+		}
+	]
+}

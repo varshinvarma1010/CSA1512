@@ -1,0 +1,29 @@
+{
+  "name": "smart-campus-service-platform",
+  "version": "1.0.0",
+  "description": "Cloud-Ready Smart Campus Service Request and Incident Response Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node tests/api.test.js"
+  },
+  "keywords": [
+    "cloud-computing",
+    "smart-campus",
+    "service-request",
+    "incident-response",
+    "express",
+    "sqlite",
+    "rest-api",
+    "docker"
+  ],
+  "author": "University Cloud Computing Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {}
+}
